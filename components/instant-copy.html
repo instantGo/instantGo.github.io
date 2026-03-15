@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación: Componente Copy</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons (dependencia necesaria) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- ES Module Shims -->
+    <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@2.8.0/dist/es-module-shims.js"></script>
+    <!-- Import Map del proyecto -->
+    <script type="importmap">
+        {
+            "imports": {
+                "app": "/assets/scripts/app.js",
+                "@hotwired/stimulus": "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
+                "@hotwired/turbo": "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.23/+esm",
+                "@popperjs/core": "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/+esm",
+                "bootstrap": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/+esm",
+                "controllers/theme_controller": "/assets/scripts/controllers/theme_controller.js",
+                "controllers/instant_copy_controller": "/assets/scripts/controllers/instant_copy_controller.js"
+            }
+        }
+    </script>
+    <!-- Carga de app.js (registra todos los controladores) -->
+    <script type="module">
+        import 'app'
+    </script>
+    <!-- Script para evitar destello (opcional, se mantiene) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        document.documentElement.setAttribute('data-bs-theme', savedTheme)
+    </script>
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Encabezado -->
+        <section class="mb-5 d-flex flex-column">
+            <h1 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-clipboard me-2"></i> Componente Copy</h1>
+            <p class="lead">Botón inteligente para copiar texto al portapapeles con feedback visual, soporte multilenguaje y total compatibilidad con Turbo.</p>
+            <!-- Componentes de demostración en vivo en el encabezado -->
+            <div class="d-flex gap-2">
+                <turbo-frame id="instant-copy-component">
+                    <div data-controller="instant-copy"
+                         data-instant-copy-text-value="Texto por defecto"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow">
+                        
+                        <!-- Placeholder visible mientras el controlador no está listo -->
+                        <span data-instant-copy-target="placeholder"
+                              class="btn btn-sm bg-info-subtle border border-info-subtle rounded-3 placeholder"
+                              style="width:100px"></span>
+                        
+                        <!-- Botón de copiar (inicialmente oculto) -->
+                        <button data-action="click->instant-copy#copy"
+                                data-instant-copy-target="button"
+                                class="btn btn-sm d-flex flex-wrap text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 gap-2 d-none">
+                            <i aria-hidden="true" class="bi bi-clipboard"></i>
+                            <span data-instant-copy-target="buttonText"></span>
+                            <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                        </button>
+                    </div>
+                </turbo-frame>
+                <p class="lead text-body-secondary">Icon + Texto</p>
+            </div>
+            <div class="d-flex gap-2">
+                <turbo-frame id="instant-copy-onlytext-component">
+                    <div data-controller="instant-copy"
+                         data-instant-copy-text-value="Texto por defecto"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow">
+                        
+                        <!-- Placeholder visible mientras el controlador no está listo -->
+                        <span data-instant-copy-target="placeholder"
+                              class="btn btn-sm bg-info-subtle border border-info-subtle rounded-3 placeholder"
+                              style="width:70px"></span>
+                        
+                        <!-- Botón de copiar (inicialmente oculto) -->
+                        <button data-action="click->instant-copy#copy"
+                                data-instant-copy-target="button"
+                                class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 d-none">                        
+                            <span data-instant-copy-target="buttonText"></span>
+                            <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                        </button>
+                    </div>
+                </turbo-frame>
+                <p class="lead text-body-secondary">Texto</p>
+            </div>
+            <div class="d-flex gap-2">
+                <turbo-frame id="instant-copy-onlyicon-component">
+                    <div data-controller="instant-copy"
+                         data-instant-copy-text-value="Texto por defecto"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow">
+                        
+                        <!-- Placeholder visible mientras el controlador no está listo -->
+                        <span data-instant-copy-target="placeholder"
+                              class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                        
+                        <!-- Botón de copiar (inicialmente oculto) -->
+                        <button data-action="click->instant-copy#copy"
+                                data-instant-copy-target="button"
+                                class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle d-none">
+                            <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                            <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                        </button>
+                    </div>
+                </turbo-frame>
+                <p class="lead text-body-secondary">Icon</p>
+            </div>
+            <hr>
+        </section>
+
+        <!-- Sección de Dependencias -->
+        <section class="pb-5">
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-box me-2"></i>   Dependencias</h2>
+            <ul>
+                <li class="mt-2"><strong><a class="text-primary-emphasis" href="https://stimulus.hotwired.dev/" target="_blank" rel="noopener noreferrer">Stimulus</a></strong> (v3.2+): El controlador está construido sobre Stimulus. Asegúrate de tenerlo instalado y configurado en tu proyecto.</li>
+                <li class="mt-2"><strong><a class="text-primary-emphasis" href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap CSS</a></strong>: El componente utiliza clases de Bootstrap para los estilos del botón y el placeholder. Es necesario tener Bootstrap incluido en tu proyecto.</li>
+                <li class="mt-2"><strong><a class="text-primary-emphasis" href="https://icons.getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap Icons</a></strong>: Se usan para los iconos por defecto. Si prefieres otros iconos, puedes personalizarlos mediante los atributos correspondientes.</li>
+                <li class="mt-2"><strong><a class="text-primary-emphasis" href="https://turbo.hotwired.dev/" target="_blank" rel="noopener noreferrer">Turbo</a></strong> (opcional): El componente es totalmente compatible con Turbo Drive, pero no requiere que Turbo esté instalado para funcionar. Si está presente, el controlador se integrará automáticamente.</li>
+                <li class="mt-2"><strong><a class="text-primary-emphasis" href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener noreferrer">ES Module Shims</a></strong> (recomendado para navegadores antiguos): Si necesitas soporte para navegadores que no implementan import maps (por ejemplo, versiones antiguas de Safari, Edge o Chrome), incluye el shim correspondiente.</li>
+            </ul>
+            <hr>
+        </section>
+
+        <!-- Sección de Instalación (mediante CDN) -->
+        <section class="mb-5">
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-lightning me-2"></i> Instalación rápida</h2>
+            <p>Para usar el componente directamente en una página HTML, sigue estos pasos:</p>
+            <ol>
+                <li>
+                    <strong class="text-body-emphasis">Incluye las dependencias en el <code>&lt;head&gt;</code></strong><br>
+                    Añade los siguientes enlaces para Bootstrap CSS, Bootstrap Icons y ES Module Shims (opcional pero recomendado para navegadores antiguos):
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#install-dep"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="install-dep" class="bg-body-tertiary p-2">
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"&gt;
+&lt;script async src="https://cdn.jsdelivr.net/npm/es-module-shims@2.8.0/dist/es-module-shims.js"&gt;&lt;/script&gt;</pre></code>
+                </li>
+                <li>
+                    <strong class="text-body-emphasis">Configura un import map</strong><br>
+                    Define las rutas de los módulos que vas a usar (Stimulus y el controlador). Stimulus desde un CDN y el controlador desde local:
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#config-import"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="config-import" class="bg-body-tertiary p-2">&lt;script type="importmap"&gt;
+    {
+      "imports": {
+        "@hotwired/stimulus": "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
+        "instant_copy_controller": "/ruta/a/tu/archivo/instant_copy_controller.js"  // Ajusta la ruta según donde hayas colocado el controlador
+      }
+    }
+&lt;/script&gt;</pre></code>
+                </li>
+                <li>
+                    <strong class="text-body-emphasis">Registra el controlador en la página</strong><br>
+                    Agrega un script tipo módulo que inicie Stimulus y registre el controlador:
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#regist-cont"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="regist-cont" class="bg-body-tertiary p-2">&lt;script type="module"&gt;
+      import { Application } from '@hotwired/stimulus'
+      import InstantCopyController from 'instant_copy_controller'
+    
+      const app = Application.start()
+      app.register('instant-copy', InstantCopyController)
+    &lt;/script&gt;</pre></code>
+                </li>
+                <li>
+                    <strong class="text-body-emphasis">¡Listo!</strong><br>
+                    Ya puedes usar el componente en cualquier parte de tu página con la estructura HTML adecuada.
+                </li>
+            </ol>
+            <p class="text-muted mt-3">Asegúrate de que la ruta al archivo <code>instant_copy_controller.js</code> en el import map sea correcta.</p>
+
+            <!-- Ejemplo completo de página -->
+            <div class="mt-5">
+                <h3 class="lead text-body-emphasis"><i aria-hidden="true" class="bi bi-file-text me-2"></i> Ejemplo completo de página con el componente</h3>
+                <p>Aquí tienes un ejemplo funcional que integra todo lo anterior. Solo necesitas colocar el archivo <code>instant_copy_controller.js</code> en la ruta indicada en el import map.</p>
+                <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#full-example"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="full-example" class="bg-body-tertiary p-2">&lt;!DOCTYPE html&gt;
+    &lt;html lang="es"&gt;
+    &lt;head&gt;
+        &lt;meta charset="UTF-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+        &lt;title&gt;Mi página con Copy&lt;/title&gt;
+        &lt;!-- Bootstrap CSS --&gt;
+        &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"&gt;
+        &lt;!-- Bootstrap Icons --&gt;
+        &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"&gt;
+        &lt;!-- ES Module Shims --&gt;
+        &lt;script async src="https://cdn.jsdelivr.net/npm/es-module-shims@2.8.0/dist/es-module-shims.js"&gt;&lt;/script&gt;
+        &lt;!-- Import Map --&gt;
+        &lt;script type="importmap"&gt;
+            {
+                "imports": {
+                    "@hotwired/stimulus": "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
+                    "instant_copy_controller": "/ruta/a/tu/archivo/instant_copy_controller.js"
+                }
+            }
+        &lt;/script&gt;
+        &lt;!-- Registrar controlador --&gt;
+        &lt;script type="module"&gt;
+            import { Application } from '@hotwired/stimulus'
+            import InstantCopyController from 'instant_copy_controller'
+            const app = Application.start()
+            app.register('instant-copy', InstantCopyController)
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div class="container py-5"&gt;
+            &lt;h1&gt;Mi página con copiado&lt;/h1&gt;
+            &lt;!-- Componente Copy --&gt;
+            &lt;div data-controller="instant-copy" data-instant-copy-text-value="Hola mundo" class="placeholder-glow"&gt;
+                &lt;span data-instant-copy-target="placeholder" class="btn btn-sm bg-info placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+                &lt;button data-action="click-&gt;instant-copy#copy" data-instant-copy-target="button" class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+                    &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+                    &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre></code>
+                <p class="text-muted">Recuerda reemplazar <code>/ruta/a/tu/archivo/instant_copy_controller.js</code> por la ubicación real de tu controlador.</p>
+            </div>
+
+            <!-- Ejemplo mínimo de instalación (solo el HTML necesario) -->
+            <div class="mt-5">
+                <h3 class="lead text-body-emphasis"><i aria-hidden="true" class="bi bi-file-text me-2"></i> Estructura HTML mínima del componente</h3>
+                <p>Si ya tienes las dependencias y el controlador registrado, este es el HTML mínimo que necesitas para que el componente funcione:</p>
+                <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#min-example"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="min-example" class="bg-body-tertiary p-2">&lt;div data-controller="instant-copy" data-instant-copy-text-value="Texto a copiar"&gt;
+    &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+    &lt;button data-action="click-&gt;instant-copy#copy"
+            data-instant-copy-target="button"
+            class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+        &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+        &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+&lt;/div&gt;</pre></code>
+                <p class="text-muted">Este bloque puede ir en cualquier lugar de tu página. Ajusta <code>data-instant-copy-text-value</code> o <code>data-instant-copy-target-value</code> según necesites.</p>
+            </div>
+            <hr>
+        </section>
+
+        <!-- Sección de Atributos -->
+        <section class="mb-5">
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-gear me-2"></i> Atributos configurables</h2>
+            <p class="mb-3">Estos atributos se colocan en el mismo elemento que lleva <code>data-controller="instant-copy"</code>. Todos deben terminar en <code>-value</code>, por ejemplo: <code>data-instant-copy-lang-value="en"</code>.</p>
+
+            <div class="row g-4">
+                <!-- data-instant-copy-text-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-text-value</code></h5>
+                            <p class="card-text">Texto literal que se copiará al hacer clic. Si se usa, tiene prioridad sobre <code>target</code> a menos que este último esté presente como parámetro en la URL de un <code>turbo-frame</code> que esté cargando al componente.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String | <strong>Default:</strong> —</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-target-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-target-value</code></h5>
+                            <p class="card-text">Selector CSS (como <code>#id</code>, <code>.clase</code>, <code>[atributo]</code>) del elemento del que se extraerá el texto. Funciona con elementos normales (<code>div</code>, <code>span</code>) y también con <code>input</code>, <code>textarea</code> y <code>select</code> (tomando su valor).</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String (selector) | <strong>Default:</strong> —</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-lang-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-lang-value</code></h5>
+                            <p class="card-text">Idioma de los textos del botón y feedback. Puede ser sobrescrito por el parámetro <code>lang</code> en la URL de la página o de un <code>turbo-frame</code>.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> <code>"es"</code> o <code>"en"</code> | <strong>Default:</strong> <code>"es"</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-translations-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-translations-value</code></h5>
+                            <p class="card-text">Objeto JSON que permite personalizar las traducciones. Puedes sobrescribir los textos por defecto para un idioma existente (es/en) o añadir traducciones para un nuevo idioma. El objeto debe tener la misma estructura que las traducciones por defecto.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> JSON string | <strong>Default:</strong> <code>"{}"</code></p>
+                            <small class="text-muted">Ejemplo para sobrescribir español y añadir francés:<br>
+                            <code>'{"es":{"button":"Copiar","success":"¡Listo!"},"fr":{"button":"Copier","success":"Copié !","error":"Erreur"}}'</code></small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-success-class-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-success-class-value</code></h5>
+                            <p class="card-text">Clases CSS que se aplican al botón durante el feedback de éxito. Puedes usar cualquier clase de Bootstrap o personalizadas.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String | <strong>Default:</strong> <code>"text-success bg-opacity-10"</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-error-class-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-error-class-value</code></h5>
+                            <p class="card-text">Clases CSS que se aplican al botón durante el feedback de error.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String | <strong>Default:</strong> <code>"text-danger bg-opacity-10"</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-icon-success-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-icon-success-value</code></h5>
+                            <p class="card-text">Clase del icono de Bootstrap Icons que se muestra en el feedback de éxito. Puedes usar cualquier clase de <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a>.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String | <strong>Default:</strong> <code>"bi-check-circle-fill"</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-icon-error-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-icon-error-value</code></h5>
+                            <p class="card-text">Clase del icono que se muestra en el feedback de error.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String | <strong>Default:</strong> <code>"bi-exclamation-triangle-fill"</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- data-instant-copy-remove-classes-value -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title"><code>data-instant-copy-remove-classes-value</code></h5>
+                            <p class="card-text">Lista de clases CSS exactas (separadas por espacios) que se eliminarán temporalmente del botón durante el feedback. Útil para evitar interferencias de clases de color/fondo/borde personalizadas.</p>
+                            <p class="mb-0"><strong>Tipo:</strong> String | <strong>Default:</strong> <code>""</code> (vacío)</p>
+                            <small class="text-muted">Ejemplo: <code>"text-primary-emphasis bg-primary-subtle border-primary-subtle"</code></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Prioridades -->
+        <section class="mb-5">
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-arrow-up-circle me-2"></i> Prioridades</h2>
+            <p>El componente sigue un orden jerárquico para determinar tanto el texto a copiar como el idioma.</p>
+            
+            <div class="row">
+                <!-- Prioridad de texto -->
+                <div class="col-md-6 mt-2">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title"><i aria-hidden="true" class="bi bi-file-text me-2"></i> Prioridad del texto a copiar</h3>
+                            <ol class="mb-0">
+                                <li class="mb-2">
+                                    <strong>Parámetros de URL de un <code>&lt;turbo-frame&gt;</code></strong><br>
+                                    Si el componente está dentro de un frame con <code>src</code> y la URL contiene <code>?target=...</code>, este tiene máxima prioridad.
+                                </li>
+                                <li class="mb-2">
+                                    <strong>Atributos HTML del componente</strong><br>
+                                    <code>data-instant-copy-text-value</code> o <code>data-instant-copy-target-value</code> definidos en el elemento.
+                                </li>
+                                <li>
+                                    <strong>Si no se especifica ninguna fuente</strong><br>
+                                    Se muestra feedback de error.
+                                </li>
+                            </ol>
+                            <p class="text-muted small mt-2">Si coexisten <code>text</code> y <code>target</code> como atributos, se usa <code>text</code> y se ignora <code>target</code>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prioridad del idioma -->
+                <div class="col-md-6 mt-2">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title"><i aria-hidden="true" class="bi bi-globe me-2"></i> Prioridad del idioma</h3>
+                            <ol class="mb-0">
+                                <li class="mb-2">
+                                    <strong>Parámetro <code>lang</code> en la URL de un <code>&lt;turbo-frame&gt;</code></strong><br>
+                                    Si el componente está dentro de un frame con <code>src</code> y la URL contiene <code>?lang=...</code>, este valor tiene prioridad.
+                                </li>
+                                <li class="mb-2">
+                                    <strong>Parámetro <code>lang</code> en la URL de la página</strong><br>
+                                    Se busca en la URL principal.
+                                </li>
+                                <li>
+                                    <strong>Atributo <code>data-instant-copy-lang-value</code></strong><br>
+                                    Valor definido en el elemento (o <code>"es"</code> por defecto).
+                                </li>
+                            </ol>
+                            <p class="text-muted small mt-2">Esto permite cambiar el idioma globalmente mediante un parámetro en la URL.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info mt-3">
+                <i aria-hidden="true" class="bi bi-info-circle me-2"></i>
+                <strong>Ejemplo combinado:</strong> 
+                <code>&lt;turbo-frame src="/copy?target=#idtext&lang=en"&gt;...&lt;/turbo-frame&gt;</code> usará el texto del elemento identificado con el <code>idtext</code> e idioma inglés, independientemente de los atributos del componente.
+            </div>
+        </section>
+        
+        <!-- Targets -->
+        <section class="mb-5">
+    <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-bullseye me-2"></i> Targets del controlador</h2>
+    <p>Los targets son elementos del DOM que el controlador utiliza para interactuar. Cada uno se identifica con el atributo <code>data-instant-copy-target="nombre"</code>. A continuación se detalla cada uno:</p>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5><code>data-instant-copy-target="placeholder"</code></h5>
+            <p><strong>Propósito:</strong> Evitar un salto visual mientras Stimulus inicializa el controlador. Se muestra inicialmente y el controlador lo oculta (añadiendo <code>d-none</code>) cuando está listo, mostrando el botón real.</p>
+            <p><strong>Recomendaciones:</strong> Debe tener un tamaño similar al botón para evitar reajustes. Usa clases de placeholder de Bootstrap (como <code>btn placeholder col-*</code>) o fijar el tamaño (<code>style ="width: 100px;"</code>) y el contenedor padre puede llevar <code>placeholder-glow</code> para un efecto de carga.</p>
+            <p class="text-muted small">Ejemplo: <code>&lt;span data-instant-copy-target="placeholder" class="btn btn-sm bg-info-subtle border border-info-subtle rounded-3 placeholder col-3"&gt;&lt;/span&gt;</code></p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5><code>data-instant-copy-target="button"</code></h5>
+            <p><strong>Propósito:</strong> Botón que ejecuta la acción de copiado. Es el elemento principal que dispara <code>copy()</code>.</p>
+            <p><strong>Requisitos:</strong> Debe tener <code>data-action="click->instant-copy#copy"</code> y la clase inicial <code>d-none</code> (oculto). El controlador lo muestra automáticamente al conectarse.</p>
+            <p><strong>Contenido opcional en el elemento contenedor (button) de este target:</strong></p>
+            <ul>
+                <li>Un icono (ej. <code>&lt;i class="bi bi-clipboard" aria-hidden="true"&gt;&lt;/i&gt;</code>). Si está presente, el controlador cambiará su clase durante el feedback (a <code>iconSuccess</code> o <code>iconError</code>). Si no hay icono, el feedback visual se basará en cambios solo de texto si el target <code>buttonText</code> está presente y clases ( <code>successClass</code> o <code>errorClass</code>) que afectan al propio elemento (button).</li>
+                <li>El target <code>buttonText</code> (necesario si se desea que el texto del botón se visualice y se actualice durante el feedback). Si no esta presente el feedback se basará en el cambio del icon mediante (<code>iconSuccess</code> o <code>iconError</code>) si está presente y las clasess ( <code>successClass</code> o <code>successClass</code>) que afectan al propio elemento (button)</li>
+                <li>El target <code>live</code> (recomendado para accesibilidad).</li>
+            </ul>
+            <p class="text-muted small">Ejemplo: <code>&lt;button data-action="click->instant-copy#copy" data-instant-copy-target="button" class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3 d-none"&gt; ... &lt;/button&gt;</code></p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5><code>data-instant-copy-target="buttonText"</code></h5>
+            <p><strong>Propósito:</strong> Elemento (normalmente un <code>&lt;span&gt;</code>) dentro del botón que muestra el texto dinámico.</p>
+            <p><strong>Comportamiento:</strong> El controlador actualiza su contenido según el idioma y el estado: texto normal (clave <code>button</code>), éxito (<code>success</code>) o error (<code>error</code>). Puede estar vacío inicialmente.</p>
+            <p><strong>Importante:</strong> Este target es necesario para que el texto del botón se visuaalize y cambie durante el feedback. Si no se incluye, el texto no se visualizará, pero el resto del feedback (icono y clases) seguirá funcionando.</p>
+            <p class="text-muted small">Ejemplo: <code>&lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;</code></p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5><code>data-instant-copy-target="live"</code></h5>
+            <p><strong>Propósito:</strong> Región ARIA live para proporcionar feedback accesible a usuarios de lectores de pantalla. Anuncia el resultado de la copia (éxito o error) sin necesidad de que el foco esté en el botón.</p>
+            <p><strong>Uso recomendado:</strong> Incluir un <code>&lt;span&gt;</code> con las clases <code>visually-hidden</code> y los atributos <code>aria-live="polite"</code> y <code>aria-atomic="true"</code>. El controlador actualizará su contenido con los mensajes <code>livesuccess</code> o <code>liveerror</code> (según idioma) y lo limpiará al restaurar el estado.</p>
+            <p><strong>Nota:</strong> No es obligatorio para el funcionamiento básico, pero se recomienda encarecidamente para cumplir con estándares de accesibilidad.</p>
+            <p class="text-muted small">Ejemplo: <code>&lt;span data-instant-copy-target="live" class="visually-hidden" aria-live="polite" aria-atomic="true"&gt;&lt;/span&gt;</code></p>
+        </div>
+    </div>
+
+    <div class="alert alert-warning mt-3">
+        <i aria-hidden="true" class="bi bi-exclamation-triangle-fill me-2"></i>
+        <strong>Importante:</strong> El target <code>data-instant-copy-target="buttonText"</code> es necesario para que el controlador pueda visualizar y cambiar el texto durante el feedback. Si no se incluye, el componente funcionará pero el texto del botón no se visualizará.
+    </div>
+
+    <div class="alert alert-info mt-2">
+        <i aria-hidden="true" class="bi bi-info-circle-fill me-2"></i>
+        <strong>Accesibilidad:</strong> Se recomienda incluir el target <code>data-instant-copy-target="live"</code> con los atributos ARIA adecuados para que los usuarios de lectores de pantalla reciban notificación del resultado de la copia.
+    </div>
+</section>
+
+        <!-- Sección de Acción -->
+        <section class="mb-5">
+            <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-play me-2"></i> Acción</h2>
+            <p>El controlador expone una única acción que debe enlazarse al evento <code>click</code> del botón.</p>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title"><code>copy</code></h3>
+                    <p class="card-text">Ejecuta la copia del texto al portapapeles y gestiona el feedback visual correspondiente.</p>
+                    
+                    <h4 class="mt-3">Forma de enlazarla:</h4>
+                    <code><pre class="bg-body-tertiary">&lt;button data-action="click->instant-copy#copy" ...&gt;</pre></code>
+                    
+                    <h6 class="mt-3">Qué hace internamente:</h6>
+                    <ol class="mb-0">
+                        <li>Obtiene el texto a copiar según la fuente configurada (texto directo, target como atributo o parámetro en la URL del frame) teniendo en cuenta la prioridad de estos.</li>
+                        <li>Verifica que la API <code>navigator.clipboard</code> esté disponible.</li>
+                        <li>Ejecuta <code>writeText()</code> para copiar el texto.</li>
+                        <li>Muestra feedback de éxito o error durante 2 segundos.</li>
+                        <li>Restaura el botón a su estado original.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="alert alert-info mt-3">
+                <i aria-hidden="true" class="bi bi-info-circle me-2"></i>
+                <strong>Nota:</strong> No es necesario llamar a esta acción manualmente desde otro código. Solo se usa mediante el atributo <code>data-action</code> en el botón.
+            </div>
+
+            <div class="alert alert-warning mt-3">
+                <i aria-hidden="true" class="bi bi-exclamation-triangle-fill me-2"></i>
+                <strong>Importante:</strong> Asegúrate de que el botón tenga el atributo <code>data-action="click->instant-copy#copy"</code>. Si no se incluye, al hacer clic no ocurrirá nada.
+            </div>
+        </section>
+
+        <!-- Sección de Ejemplos prácticos (actualizada con un sexto ejemplo para removeClasses) -->
+        <section class="mb-5">
+            <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-code-slash me-2"></i> Ejemplos prácticos</h2>
+            <p class="mb-4">A continuación se muestran diferentes formas de utilizar el componente. Todos los ejemplos son interactivos: puedes hacer clic en los botones para probarlos.</p>
+
+            <!-- Ejemplo 1: Texto directo -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>1. Texto directo</strong>
+                </div>
+                <div class="card-body">
+                    <p>El texto a copiar se define directamente en el atributo <code>data-instant-copy-text-value</code>.</p>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#example-1"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="example-1" class="bg-body-tertiary p-2">&lt;div data-controller="instant-copy"
+     data-instant-copy-text-value="Hola mundo"&gt;
+    &lt;span data-instant-copy-target="placeholder" class="btn btn-sm btn-info placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+    &lt;button data-action="click-&gt;instat-copy#copy"
+            data-instant-copy-target="button"
+            class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+        &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+        &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+&lt;/div&gt;</pre></code>
+                    <div class="mt-3">
+                        <div data-controller="instant-copy" data-instant-copy-text-value="Hola mundo">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm btn-info placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <small class="text-muted">Al hacer clic, copiará "Hola mundo".</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo 2: Desde un elemento target -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>2. Copiar desde otro elemento</strong>
+                </div>
+                <div class="card-body">
+                    <p>El texto se extrae del elemento indicado en <code>data-instant-copy-target-value</code>. En este caso, copiará el contenido del <code>&lt;div id="example-2"&gt;</code>.</p>
+                    <div id="example-2" class="alert alert-secondary">Este es el texto que se copiará: 12345</div>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#example-2-code"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="example-2-code" class="bg-body-tertiary p-2">&lt;div id="example-2"&gt;Este es el texto que se copiará: 12345&lt;/div&gt;
+
+&lt;div data-controller="instant-copy"
+     data-instant-copy-target-value="#example-2"     
+     class="placeholder-glow"&gt;
+     &lt;span data-instant-copy-target="placeholder" class="btn btn-sm btn-info placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;button data-action="click->instant-copy#copy"
+             data-instant-copy-target="button"
+             class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+         &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+         &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+     &lt;/button&gt;                    
+&lt;/div&gt;</pre></code>
+                    <div class="mt-3">
+                        <div data-controller="instant-copy"
+                             data-instant-copy-target-value="#example-2"                             
+                             class="placeholder-glow">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm btn-info placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <small class="text-muted">Copia el texto del recuadro gris.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo 3: Personalización de feedback -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>3. Personalización de feedback</strong>
+                </div>
+                <div class="card-body">
+                    <p>Se pueden cambiar las clases de éxito/error y los iconos. Aquí el éxito se muestra en rojo con una estrella, y el error en amarillo con una equis.</p>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#example-3"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="example-3" class="bg-body-tertiary p-2">&lt;div data-controller="instant-copy"
+     data-instant-copy-text-value="Éxito"
+     data-instant-copy-success-class-value="text-danger bg-opacity-10"
+     data-instant-copy-icon-success-value="bi-star-fill"
+     class="placeholder-glow"&gt;
+     &lt;span data-instant-copy-target="placehfolder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;button data-action="click->instant-copy#copy"
+             data-instant-copy-target="button"
+             class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+         &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+         &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+     &lt;/button&gt;
+&lt;/div&gt;</pre></code>
+                  <code>
+                    <div data-controller="instant-copy"
+                     data-instant-copy-target-value="#example-3-2"
+                     data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                     data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                     data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                     class="placeholder-glow position-relative">
+                        
+                        <!-- Placeholder visible mientras el controlador no está listo -->
+                        <span data-instant-copy-target="placeholder"
+                              class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                        <!-- Botón de copiar (inicialmente oculto) -->
+                        <button data-action="click->instant-copy#copy"
+                                data-instant-copy-target="button"
+                                class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                            <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                            <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
+                        </button>
+                    </div>
+                    <pre id="example-3-2" class="bg-body-tertiary p-2">&lt;div data-controller="instant-copy"
+     data-instant-copy-target-value="#desconosido"
+     data-instant-copy-error-class-value="text-warning bg-opacity-10"
+     data-instant-copy-icon-error-value="bi-x-circle-fill"
+     class="placeholder-glow"&gt;
+     &lt;span data-instant-copy-target="placehfolder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;button data-action="click->instant-copy#copy"
+             data-instant-copy-target="button"
+             class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+         &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+         &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+     &lt;/button&gt;
+&lt;/div&gt;</pre></code>                     
+                    <div class="mt-3 d-flex flex-wrap gap-1">
+                        <div data-controller="instant-copy"
+                             data-instant-copy-text-value="Éxito"
+                             data-instant-copy-success-class-value="text-danger bg-opacity-10"
+                             data-instant-copy-icon-success-value="bi-star-fill"
+                             class="placeholder-glow">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <div data-controller="instant-copy"
+                             data-instant-copy-target-value="#desconosido"
+                             data-instant-copy-error-class-value="text-warning bg-opacity-10"
+                             data-instant-copy-icon-error-value="bi-x-circle-fill"
+                             class="placeholder-glow">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm btn-info d-flex flesx-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <small class="text-muted flex-fill">Al copiar, éxito rojo con estrella; si falla, error amarillo con equis.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo 4: Idioma inglés -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>4. Idioma inglés</strong>
+                </div>
+                <div class="card-body">
+                    <p>Con <code>data-instant-copy-lang-value="en"</code> el botón mostrará "Copy" y los mensajes "Copied!" / "Copy failed".</p>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#example-4"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="example-4" class="bg-body-tertiary p-2">&lt;div data-controller="instant-copy"
+     data-instant-copy-text-value="Hello world"
+     data-instant-copy-lang-value="en"
+     class="placeholder-glow"&gt;
+     &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;button data-action="click->instant-copy#copy"
+             data-instant-copy-target="button"
+             class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+             &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+             &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+      &lt;/button&gt;                    
+&lt;/div&gt;</pre></code>
+                    <div class="mt-3">
+                        <div data-controller="instant-copy"
+                             data-instant-copy-text-value="Hello world"
+                             data-instant-copy-lang-value="en"
+                             class="placeholder-glow">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <small class="text-muted">El botón muestra "Copy".</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo 5: Traducciones personalizadas -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>5. Traducciones personalizadas</strong>
+                </div>
+                <div class="card-body">
+                    <p>Se puede pasar un JSON con traducciones propias. En este ejemplo, se añade un nuevo idioma "fr" y se modifica el mensaje de éxito en español.</p>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#example-5"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="example-5" class="bg-body-tertiary p-2">&lt;div data-controller="instant-copy"
+     data-instant-copy-text-value="Bonjour"
+     data-instant-copy-lang-value="fr"
+     data-instant-copy-translations-value='{"es":{"success":"¡Hecho!"},"fr":{"button":"Copier","success":"Copié !","error":"Erreur"}}'
+     class="placeholder-glow"&gt;
+     &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;button data-action="click->instant-copy#copy"
+             data-instant-copy-target="button"
+             class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+             &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+             &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+     &lt;/button&gt;
+&lt;/div&gt;</pre></code>
+                    <div class="mt-3">
+                        <div data-controller="instant-copy"
+                             data-instant-copy-text-value="Bonjour"
+                             data-instant-copy-lang-value="fr"
+                             data-instant-copy-translations-value='{"es":{"success":"¡Hecho!"},"fr":{"button":"Copier","success":"Copié !","error":"Erreur"}}'
+                             class="placeholder-glow">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <small class="text-muted">Idioma francés con textos personalizados.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ejemplo 6: Uso de removeClasses -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>6. Eliminar clases durante el feedback</strong>
+                </div>
+                <div class="card-body">
+                    <p>Usando <code>data-instant-copy-remove-classes-value</code> puedes indicar qué clases deben desaparecer temporalmente para que el feedback se vea sin interferencias. En este ejemplo, el botón tiene clases <code>text-primary-emphasis bg-primary-subtle</code> que se eliminarán al mostrar el feedback.</p>
+                    <div id="fuente6" class="alert alert-success">Texto de ejemplo con clases personalizadas</div>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#example-6"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="example-6" class="bg-body-tertiary p-2">&lt;div id="fuente6" class="alert alert-success"&gt;Texto de ejemplo con clases personalizadas&lt;/div&gt;
+&lt;div data-controller="instant-copy"
+     data-instant-copy-target-value="#fuente6"
+     data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle"
+     data-instant-copy-success-class-value="text-white bg-success"
+     class="placeholder-glow"&gt;
+    &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+    &lt;button data-action="click-&gt;instant-copy#copy"
+            data-instant-copy-target="button"
+            class="btn btn-sm text-primary-emphasis bg-primary-subtle d-flex flex-wrap gap-2 d-none"&gt;
+        &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+        &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+&lt;/div&gt;</pre></code>
+                    <div class="mt-3">
+                        <div data-controller="instant-copy"
+                             data-instant-copy-target-value="#fuente6"
+                             data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle"
+                             data-instant-copy-success-class-value="text-white bg-success"
+                             class="placeholder-glow">
+                            <span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"></span>
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle d-flex flex-wrap gap-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>
+                                <span data-instant-copy-target="buttonText"></span>
+                            </button>
+                        </div>
+                        <small class="text-muted">Al copiar, se eliminan las clases azules y se aplica feedback verde con texto blanco.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nota sobre Turbo Frames con ejemplo -->
+            <div class="alert alert-secondary mt-4">
+                <i aria-hidden="true" class="bi bi-info-circle me-2"></i>
+                <strong>Uso con Turbo Frames:</strong> Para utilizar esta funcionalidad, <strong>Turbo debe estar instalado en tu proyecto</strong>. El componente puede cargarse dentro de un <code>&lt;turbo-frame&gt;</code> que apunte a una URL que contiene el HTML del componente. Los parámetros incluidos en la URL del frame (como <code>?target=...</code> , <code>?lang=...</code>) tienen prioridad sobre los atributos definidos directamente en el HTML del componente. Esto permite pasar valores dinámicos sin modificar la página que aloja el componente.
+
+                <div class="mt-3">
+                    <h6><i aria-hidden="true" class="bi bi-file-text me-2"></i> Página principal (ej. <code>/pagina</code>):</h6>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#nota-turbo"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="nota-turbo" class="bg-body-tertiary p-2">&lt;turbo-frame id="componente-instant-copy" src="/componentes/instant-copy?target=#idtext&lang=en"&gt;
+    &lt;!-- Mientras carga, puede mostrar un placeholder --&gt;
+    Cargando...
+&lt;/turbo-frame&gt;</pre></code>
+                </div>
+
+                <div class="mt-3">
+                    <h6><i aria-hidden="true" class="bi bi-file-text me-2"></i> Página del componente (ej. <code>/componentes/copy</code>):</h6>
+                    <code>
+                        <div data-controller="instant-copy"
+                         data-instant-copy-target-value="#nota-turbo2"
+                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                         class="placeholder-glow position-relative">
+                        
+                            <!-- Placeholder visible mientras el controlador no está listo -->
+                            <span data-instant-copy-target="placeholder"
+                                  class="btn btn-sm bg-info-subtle border border-info-subtle rounded-circle placeholder position-absolute top-0 end-0 mt-2 me-2"><i aria-hidden="true" class="bi bi-clipboard opacity-0"></i></span>
+                            
+                            <!-- Botón de copiar (inicialmente oculto) -->
+                            <button data-action="click->instant-copy#copy"
+                                    data-instant-copy-target="button"
+                                    class="btn btn-sm text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-circle position-absolute top-0 end-0 mt-2 me-2 d-none">
+                                <i aria-hidden="true" class="bi bi-clipboard"></i>                      
+                                <span data-instant-copy-target="live" class="visually-hidden" aria-live="polite"  aria-atomic="true"></span>
+                            </button>
+                        </div>
+                        <pre id="nota-turbo2" class="bg-body-tertiary p-2">&lt;turbo-frame id="componente-instant-copy"&gt;
+     &lt;div data-controller="instant-copy"
+        data-instant-copy-text-value="Texto por defecto"
+        data-instant-copy-lang-value="es"
+        class="placeholder-glow"&gt;
+        &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+        &lt;button data-action="click-&gt;instant-copy#copy"
+               data-instant-copy-target="button"
+               class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
+               &lt;i aria-hidden="true" class="bi bi-clipboard"&gt;&lt;/i&gt;
+               &lt;span data-instant-copy-target="buttonText"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+&lt;/turbo-frame&gt;</pre></code>
+                </div>
+
+                <p class="mt-3 mb-0"><strong>Resultado:</strong> El componente se cargará usando el texto del elemento identificado con <code>#idtext</code> y el idioma inglés, ignorando los valores por defecto definidos en su HTML (<code>data-instant-copy-text-value="Texto por defecto"</code> y <code>data-instant-copy-lang-value="es"</code>).</p>
+                <p class="mt-2 mb-0"><small>Necesitas tener Turbo instalado como dependencia para usar esta característica excepto para el parámetro <code>lang</code> que puede ser pasado como parámetro en la url global de la página teniendo el mismo efecto y prioridad con respecto a los atributos en el HTML del componente</small></p>
+            </div>
+        </section>
+
+        <!-- Sección de Comportamiento general (actualizada con mención a removeClasses y más detalles) -->
+        <section class="mb-5">
+            <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-puzzle me-2"></i> Comportamiento general</h2>
+            <p>El componente sigue un flujo predecible en todas sus interacciones. Estos son los aspectos clave de su funcionamiento:</p>
+
+            <div class="card">
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-hand-index-thumb-fill text-info me-2"></i>
+                            <strong>Al hacer clic:</strong> Se obtiene el texto a copiar siguiendo la prioridad definida (parámetro de frame → atributos HTML). Si no hay texto, se muestra feedback de error.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-check-circle-fill text-success me-2"></i>
+                            <strong>Éxito:</strong> Si la copia es exitosa, el botón muestra durante 2 segundos el icono y mensaje de éxito configurados (<code>data-instant-copy-icon-success-value</code> y traducción <code>success</code>), y se aplican las clases de <code>data-instant-copy-success-class-value</code>.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                            <strong>Error:</strong> Si falla (API no disponible, elemento no encontrado, texto vacío), se muestra feedback de error con su icono, mensaje y clases correspondientes.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-arrow-repeat text-secondary me-2"></i>
+                            <strong>Restauración:</strong> Tras 2 segundos, el botón recupera su estado original: texto del botón, icono y clases iniciales.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-exclamation-diamond-fill text-danger me-2"></i>
+                            <strong>Clics durante el feedback:</strong> Si se pulsa el botón mientras está mostrando un feedback, el feedback anterior se cancela y se inicia uno nuevo (primero se restaura el estado original y luego se aplica el nuevo feedback).
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-box-arrow-up-right text-primary me-2"></i>
+                            <strong>Desconexión del controlador:</strong> Cuando el elemento es eliminado del DOM (por ejemplo, al navegar con Turbo), el controlador restaura el estado original antes de desconectarse, dejando el DOM limpio.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-database-fill text-info me-2"></i>
+                            <strong>Con Turbo:</strong> Además de la restauración en desconexión, escucha el evento <code>turbo:before-cache</code> para asegurar que la página se cachea con el botón en su estado original, evitando que aparezca con feedback al volver atrás.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-puzzle-fill text-secondary me-2"></i>
+                            <strong>Sin texto configurado:</strong> Si no se define ninguna fuente de texto (ni atributo ni parámetro de frame), al hacer clic se mostrará directamente el feedback de error.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-eraser-fill text-danger me-2"></i>
+                            <strong>Eliminación de clases con <code>removeClasses</code>:</strong> Durante el feedback, se eliminan temporalmente las clases listadas en <code>data-instant-copy-remove-classes-value</code> para evitar interferencias visuales. Luego se restauran junto con el estado original.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-translate text-primary me-2"></i>
+                            <strong>Internacionalización:</strong> El componente incluye traducciones por defecto en español e inglés. Puedes extenderlo a otros idiomas mediante <code>data-instant-copy-translations-value</code>. Si no se encuentra el idioma solicitado, se usa español como fallback.
+                        </li>
+                        <li class="mb-3">
+                            <i aria-hidden="true" class="bi bi-eye-slash text-secondary me-2"></i>
+                            <strong>Placeholder:</strong> El elemento <code>placeholder</code> se oculta automáticamente al conectar el controlador. Si el controlador falla por algún motivo, el placeholder permanecerá visible, lo que puede servir como indicador de error.
+                        </li>
+                        <li class="mb-0">
+                            <i aria-hidden="true" class="bi bi-hdd-stack text-info me-2"></i>
+                            <strong>Múltiples instancias:</strong> Puedes usar tantos componentes Copy en una misma página como necesites. Cada uno funciona de forma independiente, con su propia configuración y estado.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="alert alert-light border mt-3">
+                <i aria-hidden="true" class="bi bi-clock-history me-2"></i>
+                <strong>Tiempo de feedback:</strong> Los 2 segundos son fijos por diseño. Si necesitas cambiarlo, puedes modificar el valor en el controlador (línea del <code>setTimeout</code>).
+            </div>
+        </section>
+    </div>
+</body>
+</html>
