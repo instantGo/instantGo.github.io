@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto de Componentes</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- ES Module Shims -->
+    <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@2.8.0/dist/es-module-shims.js"></script>
+    <!-- Import Map del proyecto -->
+    <script type="importmap">
+        {
+            "imports": {
+                "app": "/assets/scripts/app.js",
+                "@hotwired/stimulus": "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
+                "@hotwired/turbo": "https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.23/+esm",
+                "@popperjs/core": "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/+esm",
+                "bootstrap": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/+esm",
+                "controllers/instant_theme_controller": "/assets/scripts/controllers/instant_theme_controller.js",
+                "controllers/instant_copy_controller": "/assets/scripts/controllers/instant_copy_controller.js"
+            }
+        }
+    </script>
+    <!-- Carga de app.js (registra todos los controladores) -->
+    <script type="module">
+        import 'app'
+    </script>
+    <!-- Script para evitar destello (mantiene el tema guardado) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 
+                        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        document.documentElement.setAttribute('data-bs-theme', savedTheme)
+    </script>
+</head>
+<body class="bg-body-tertiary">
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4 text-body-emphasis">
+                <i class="bi bi-puzzle me-2" aria-hidden="true"></i>
+                Componentes reutilizables
+            </h1>
+            <p class="lead text-body-secondary">
+                Colección de componentes Stimulus para tus proyectos Rails o cualquier aplicación con Bootstrap.
+            </p>
+        </header>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Tarjeta del componente Copy -->
+            <div class="col-md-5">
+                <div class="card h-100 shadow-sm border">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="bi bi-clipboard fs-1 text-primary" aria-hidden="true"></i>
+                        </div>
+                        <h2 class="h4 card-title text-body-emphasis">Copiar al portapapeles</h2>
+                        <p class="card-text text-body-secondary">
+                            Botón con feedback visual y accesible. Soporta internacionalización, personalización de estilos y región ARIA live.
+                        </p>
+                        <a href="/components/instant-copy.html" class="btn btn-primary mt-3">
+                            <i class="bi bi-file-text me-2" aria-hidden="true"></i>
+                            Ver documentación
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta del componente Selector de tema -->
+            <div class="col-md-5">
+                <div class="card h-100 shadow-sm border">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="bi bi-palette fs-1 text-primary" aria-hidden="true"></i>
+                        </div>
+                        <h2 class="h4 card-title text-body-emphasis">Selector de tema</h2>
+                        <p class="card-text text-body-secondary">
+                            Cambia entre tema claro, oscuro y automático. Persiste la preferencia en localStorage y se integra con Bootstrap.
+                        </p>
+                        <a href="/components/instant-theme-selector.html" class="btn btn-primary mt-3">
+                            <i class="bi bi-file-text me-2" aria-hidden="true"></i>
+                            Ver documentación
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-5 text-center text-body-secondary">
+            <small>Ambos componentes usan Bootstrap 5, Stimulus 3 y Bootstrap Icons.</small>
+        </footer>
+    </div>
+</body>
+</html>
