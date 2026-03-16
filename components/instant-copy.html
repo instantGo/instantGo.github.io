@@ -47,6 +47,7 @@
             <div class="card bg-body-tertiary d-flex flex-row align-items-center p-2 gap-2">
                 <turbo-frame id="instant-copy-component">
                     <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"                       
                          data-instant-copy-text-value="Texto por defecto"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"
@@ -73,6 +74,7 @@
             <div class="card bg-body-tertiary d-flex flex-row align-items-center p-2 gap-2">
                 <turbo-frame id="instant-copy-onlytext-component">
                     <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-text-value="Texto por defecto"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"
@@ -98,6 +100,7 @@
             <div class="card bg-body-tertiary d-flex flex-row align-items-center p-2 gap-2">
                 <turbo-frame id="instant-copy-onlyicon-component">
                     <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-text-value="Texto por defecto"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -145,11 +148,12 @@
                     Añade los siguientes enlaces para Bootstrap CSS, Bootstrap Icons y ES Module Shims (opcional pero recomendado para navegadores antiguos):
                     <code>
                         <div data-controller="instant-copy"
-                         data-instant-copy-target-value="#install-dep"
-                         data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
-                         data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
-                         data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
-                         class="placeholder-glow position-relative">
+                             data-instant-copy-aria-label-enabled-value="true"
+                             data-instant-copy-target-value="#install-dep"
+                             data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
+                             data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
+                             data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle border-primary-subtle"              
+                             class="placeholder-glow position-relative">
                         
                             <!-- Placeholder visible mientras el controlador no está listo -->
                             <span data-instant-copy-target="placeholder"
@@ -173,6 +177,7 @@
                     Define las rutas de los módulos que vas a usar (Stimulus y el controlador). Stimulus desde un CDN y el controlador desde local:
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#config-import"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -205,6 +210,7 @@
                     Agrega un script tipo módulo que inicie Stimulus y registre el controlador:
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#regist-cont"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -229,7 +235,7 @@
     
       const app = Application.start()
       app.register('instant-copy', InstantCopyController)
-    &lt;/script&gt;</pre></code>
+&lt;/script&gt;</pre></code>
                 </li>
                 <li>
                     <strong class="text-body-emphasis">¡Listo!</strong><br>
@@ -244,6 +250,7 @@
                 <p>Aquí tienes un ejemplo funcional que integra todo lo anterior. Solo necesitas colocar el archivo <code>instant_copy_controller.js</code> en la ruta indicada en el import map.</p>
                 <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#full-example"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -314,6 +321,7 @@
                 <p>Si ya tienes las dependencias y el controlador registrado, este es el HTML mínimo que necesitas para que el componente funcione:</p>
                 <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#min-example"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -458,7 +466,7 @@
                     <div class="card h-100">
                         <div class="card-body">
                             <h5 class="card-title"><code>data-instant-copy-aria-label-enabled-value</code></h5>
-                            <p class="card-text">Habilita la adición de un atributo <code>aria-label</code> al botón con un texto descriptivo (definido en las traducciones como <code>ariaLabel</code>). Útil para mejorar la accesibilidad, especialmente cuando el botón no tiene texto visible o se desea proporcionar una descripción más detallada.</p>
+                            <p class="card-text">Habilita la adición de un atributo <code>aria-label</code> al botón con un texto descriptivo (definido en las traducciones como <code>arialabel</code>). Útil para mejorar la accesibilidad, especialmente cuando el botón no tiene texto visible o se desea proporcionar una descripción más detallada.</p>
                             <p class="mb-0"><strong>Tipo:</strong> Boolean | <strong>Default:</strong> <code>false</code></p>
                             <small class="text-muted">Ejemplo: <code>data-instant-copy-aria-label-enabled-value="true"</code></small>
                         </div>
@@ -466,6 +474,7 @@
                 </div>
             </div>
         </section>
+
         <!-- Sección de Prioridades -->
         <section class="mb-5">
             <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-arrow-up-circle me-2"></i> Prioridades</h2>
@@ -637,6 +646,7 @@
                     <p>El texto a copiar se define directamente en el atributo <code>data-instant-copy-text-value</code>.</p>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#example-1"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -666,7 +676,9 @@
     &lt;/button&gt;
 &lt;/div&gt;</pre></code>
                     <div class="mt-3">
-                        <div data-controller="instant-copy" data-instant-copy-text-value="Hola mundo">
+                        <div data-controller="instant-copy"
+                            data-instant-copy-aria-label-enabled-value="true"
+                            data-instant-copy-text-value="Hola mundo">
                             <span data-instant-copy-target="placeholder" class="btn btn-sm btn-info placeholder" style="width: 100px;"></span>
                             <button data-action="click->instant-copy#copy"
                                     data-instant-copy-target="button"
@@ -690,6 +702,7 @@
                     <div id="example-2" class="alert alert-secondary">Este es el texto que se copiará: 12345</div>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#example-2-code"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -723,6 +736,7 @@
 &lt;/div&gt;</pre></code>
                     <div class="mt-3">
                         <div data-controller="instant-copy"
+                             data-instant-copy-aria-label-enabled-value="true"
                              data-instant-copy-target-value="#example-2"                             
                              class="placeholder-glow">
                             <span data-instant-copy-target="placeholder" class="btn btn-sm btn-info placeholder" style="width: 100px;"></span>
@@ -747,6 +761,7 @@
                     <p>Se pueden cambiar las clases de éxito/error y los iconos. Aquí el éxito se muestra en rojo con una estrella, y el error en amarillo con una equis.</p>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#example-3"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -780,6 +795,7 @@
 &lt;/div&gt;</pre></code>
                   <code>
                     <div data-controller="instant-copy"
+                     data-instant-copy-aria-label-enabled-value="true"
                      data-instant-copy-target-value="#example-3-2"
                      data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                      data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -813,6 +829,7 @@
 &lt;/div&gt;</pre></code>                     
                     <div class="mt-3 d-flex flex-wrap gap-1">
                         <div data-controller="instant-copy"
+                             data-instant-copy-aria-label-enabled-value="true"
                              data-instant-copy-text-value="Éxito"
                              data-instant-copy-success-class-value="text-danger bg-opacity-10"
                              data-instant-copy-icon-success-value="bi-star-fill"
@@ -826,6 +843,7 @@
                             </button>
                         </div>
                         <div data-controller="instant-copy"
+                             data-instant-copy-aria-label-enabled-value="true"
                              data-instant-copy-target-value="#desconosido"
                              data-instant-copy-error-class-value="text-warning bg-opacity-10"
                              data-instant-copy-icon-error-value="bi-x-circle-fill"
@@ -852,6 +870,7 @@
                     <p>Con <code>data-instant-copy-lang-value="en"</code> el botón mostrará "Copy" y los mensajes "Copied!" / "Copy failed".</p>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#example-4"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -884,6 +903,7 @@
 &lt;/div&gt;</pre></code>
                     <div class="mt-3">
                         <div data-controller="instant-copy"
+                             data-instant-copy-aria-label-enabled-value="true"
                              data-instant-copy-text-value="Hello world"
                              data-instant-copy-lang-value="en"
                              class="placeholder-glow">
@@ -909,6 +929,7 @@
                     <p>Se puede pasar un JSON con traducciones propias. En este ejemplo, se añade un nuevo idioma "fr" y se modifica el mensaje de éxito en español.</p>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#example-5"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -942,6 +963,7 @@
 &lt;/div&gt;</pre></code>
                     <div class="mt-3">
                         <div data-controller="instant-copy"
+                             data-instant-copy-aria-label-enabled-value="true"
                              data-instant-copy-text-value="Bonjour"
                              data-instant-copy-lang-value="fr"
                              data-instant-copy-translations-value='{"es":{"success":"¡Hecho!"},"fr":{"button":"Copier","success":"Copié !","error":"Erreur"}}'
@@ -969,6 +991,7 @@
                     <div id="fuente6" class="alert alert-success">Texto de ejemplo con clases personalizadas</div>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#example-6"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -1003,6 +1026,7 @@
 &lt;/div&gt;</pre></code>
                     <div class="mt-3">
                         <div data-controller="instant-copy"
+                             data-instant-copy-aria-label-enabled-value="true"
                              data-instant-copy-target-value="#fuente6"
                              data-instant-copy-remove-classes-value="text-primary-emphasis bg-primary-subtle"
                              data-instant-copy-success-class-value="text-white bg-success"
@@ -1029,6 +1053,7 @@
                     <h6><i aria-hidden="true" class="bi bi-file-text me-2"></i> Página principal (ej. <code>/pagina</code>):</h6>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#nota-turbo"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
@@ -1057,6 +1082,7 @@
                     <h6><i aria-hidden="true" class="bi bi-file-text me-2"></i> Página del componente (ej. <code>/componentes/copy</code>):</h6>
                     <code>
                         <div data-controller="instant-copy"
+                         data-instant-copy-aria-label-enabled-value="true"
                          data-instant-copy-target-value="#nota-turbo2"
                          data-instant-copy-success-class-value="text-success-emphasis bg-success-subtle border-success-subtle"
                          data-instant-copy-error-class-value="text-danger-emphasis bg-danger-subtle border-danger-subtle"           
