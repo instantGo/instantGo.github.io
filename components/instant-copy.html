@@ -41,7 +41,9 @@
         <section class="mb-5 d-flex flex-column">
             <h1 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-clipboard me-2"></i> Componente Copy</h1>
             <p class="lead">Botón inteligente para copiar texto al portapapeles con feedback visual, soporte multilenguaje y total compatibilidad con Turbo.</p>
-            <!-- Componentes de demostración en vivo en el encabezado -->
+            <hr>
+            <h2 class="lead text-body-emphasis"><i aria-hidden="true" class="bi bi-star me-2"></i> Demostración en vivo</h2>
+            <!-- Componentes de demostración en vivo en el encabezado -->           
             <div class="d-flex gap-2">
                 <turbo-frame id="instant-copy-component">
                     <div data-controller="instant-copy"
@@ -518,7 +520,7 @@
         
         <!-- Targets -->
         <section class="mb-5">
-    <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-bullseye me-2"></i> Targets del controlador</h2>
+    <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-bullseye me-2"></i> Targets del controlador</h2>
     <p>Los targets son elementos del DOM que el controlador utiliza para interactuar. Cada uno se identifica con el atributo <code>data-instant-copy-target="nombre"</code>. A continuación se detalla cada uno:</p>
 
     <div class="card mb-3">
@@ -578,7 +580,7 @@
 
         <!-- Sección de Acción -->
         <section class="mb-5">
-            <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-play me-2"></i> Acción</h2>
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-play me-2"></i> Acción</h2>
             <p>El controlador expone una única acción que debe enlazarse al evento <code>click</code> del botón.</p>
 
             <div class="card">
@@ -613,7 +615,7 @@
 
         <!-- Sección de Ejemplos prácticos (actualizada con un sexto ejemplo para removeClasses) -->
         <section class="mb-5">
-            <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-code-slash me-2"></i> Ejemplos prácticos</h2>
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-code-slash me-2"></i> Ejemplos prácticos</h2>
             <p class="mb-4">A continuación se muestran diferentes formas de utilizar el componente. Todos los ejemplos son interactivos: puedes hacer clic en los botones para probarlos.</p>
 
             <!-- Ejemplo 1: Texto directo -->
@@ -758,7 +760,7 @@
      data-instant-copy-success-class-value="text-danger bg-opacity-10"
      data-instant-copy-icon-success-value="bi-star-fill"
      class="placeholder-glow"&gt;
-     &lt;span data-instant-copy-target="placehfolder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
      &lt;button data-action="click->instant-copy#copy"
              data-instant-copy-target="button"
              class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
@@ -791,7 +793,7 @@
      data-instant-copy-error-class-value="text-warning bg-opacity-10"
      data-instant-copy-icon-error-value="bi-x-circle-fill"
      class="placeholder-glow"&gt;
-     &lt;span data-instant-copy-target="placehfolder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
+     &lt;span data-instant-copy-target="placeholder" class="btn btn-sm placeholder" style="width: 100px;"&gt;&lt;/span&gt;
      &lt;button data-action="click->instant-copy#copy"
              data-instant-copy-target="button"
              class="btn btn-sm btn-info d-flex flex-wrap gap-2 d-none"&gt;
@@ -1086,7 +1088,7 @@
 
         <!-- Sección de Comportamiento general (actualizada con mención a removeClasses y más detalles) -->
         <section class="mb-5">
-            <h2 class="text-body-emphasis"><i aria-hidden="true" class="bi bi-puzzle me-2"></i> Comportamiento general</h2>
+            <h2 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-puzzle me-2"></i> Comportamiento general</h2>
             <p>El componente sigue un flujo predecible en todas sus interacciones. Estos son los aspectos clave de su funcionamiento:</p>
 
             <div class="card">
