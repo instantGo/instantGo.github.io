@@ -38,13 +38,13 @@
 <body>
     <div class="container py-5">
         <!-- Encabezado -->
-        <section class="mb-5 d-flex flex-column">
+        <section class="mb-5 d-flex flex-column gap-2">
             <h1 class="display-5 text-body-emphasis"><i aria-hidden="true" class="bi bi-clipboard me-2"></i> Componente Copy</h1>
             <p class="lead">Botón inteligente para copiar texto al portapapeles con feedback visual, soporte multilenguaje y total compatibilidad con Turbo.</p>
             <hr>
             <h2 class="lead text-body-emphasis"><i aria-hidden="true" class="bi bi-star me-2"></i> Demostración en vivo</h2>
             <!-- Componentes de demostración en vivo en el encabezado -->           
-            <div class="d-flex gap-2">
+            <div class="card bg-body-tertiary d-flex flex-row align-items-center p-2 gap-2">
                 <turbo-frame id="instant-copy-component">
                     <div data-controller="instant-copy"
                          data-instant-copy-text-value="Texto por defecto"
@@ -68,9 +68,9 @@
                         </button>
                     </div>
                 </turbo-frame>
-                <p class="lead text-body-secondary">Icon + Texto</p>
+                <p class="lead text-body-secondary m-0">Icon + Texto</p>
             </div>
-            <div class="d-flex gap-2">
+            <div class="card bg-body-tertiary d-flex flex-row align-items-center p-2 gap-2">
                 <turbo-frame id="instant-copy-onlytext-component">
                     <div data-controller="instant-copy"
                          data-instant-copy-text-value="Texto por defecto"
@@ -93,9 +93,9 @@
                         </button>
                     </div>
                 </turbo-frame>
-                <p class="lead text-body-secondary">Texto</p>
+                <p class="lead text-body-secondary m-0">Texto</p>
             </div>
-            <div class="d-flex gap-2">
+            <div class="card bg-body-tertiary d-flex flex-row align-items-center p-2 gap-2">
                 <turbo-frame id="instant-copy-onlyicon-component">
                     <div data-controller="instant-copy"
                          data-instant-copy-text-value="Texto por defecto"
@@ -117,7 +117,7 @@
                         </button>
                     </div>
                 </turbo-frame>
-                <p class="lead text-body-secondary">Icon</p>
+                <p class="lead text-body-secondary m-0">Icon</p>
             </div>
             <hr>
         </section>
